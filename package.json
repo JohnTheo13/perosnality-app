@@ -1,0 +1,30 @@
+{
+  "name": "PersonalityApp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "adb shell input keyevent 82",
+    "android": "react-native run-android",
+    "emulator": "emulator @Nexus_5X_API_28_x86 -no-snapshot-save",
+    "clean": "emulator @Nexus_5X_API_28_x86 -wipe-data",
+    "react-devtools": "react-devtools",
+    "log": "adb logcat *:S ReactNative:V ReactNativeJS:V",
+    "test": "jest"
+  },
+  "dependencies": {
+    "react": "16.6.3",
+    "react-native": "0.58.3",
+    "react-native-config": "^0.11.7"
+  },
+  "devDependencies": {
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "24.0.0",
+    "jest": "24.0.0",
+    "metro-react-native-babel-preset": "0.51.1",
+    "react-devtools": "^3.6.0",
+    "react-test-renderer": "16.6.3"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
