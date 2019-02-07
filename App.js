@@ -10,6 +10,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import { get } from './src/api';
+import AppHeader from './src/components/Header';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -34,12 +35,11 @@ export default class App extends Component<Props> {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
+        <AppHeader title="hese tests"/>
         <Text style={styles.instructions}>To get statd, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
-  
       </View>
-    );
+    )
   }
 }
 
