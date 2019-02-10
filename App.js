@@ -10,11 +10,11 @@
 import React, {Component} from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import Home from './src/components/Home';
-import AppHeader from './src/components/Header'
+import StartingScreen from './src/components/StartingScreen'
 
 const App = createStackNavigator({
   Home,
-  Head: AppHeader
+  StartingScreen
 }, {
   defaultNavigationOptions: {
     headerTintColor: '#ffffff',

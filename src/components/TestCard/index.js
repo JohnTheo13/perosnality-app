@@ -1,34 +1,32 @@
 // @flow
 import React from 'react';
 import { TouchableHighlight, StyleSheet, Text, View } from 'react-native';
+import styled from 'styled-components/native'
+import { post } from '../../api';
 
-const style = StyleSheet.create({
-  container: {
-    backgroundColor: '#e9eaee',
-    padding: 20,
-    marginBottom: 12,
-    borderColor: '#00000021',
-    borderTopWidth: 0.5,
-    borderBottomWidth: 0.5
-  },
-  header: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 8,
-    color: 'black',
-  },
-  text: {
-    fontSize: 14,
-    color: '#0000008a'
-  }
-})
+const StyledText = styled.Text`
+  font-size: 14;
+  color: #0000008a;
+`;
 
-const TestCard = ({ name, description }) => (
-  <TouchableHighlight onPress={() => alert('This is a button!')}>
-    <View style={style.container}>
-      <Text style={style.header}>{name}</Text>
-      <Text style={style.text}>{description}</Text>
-    </View>
+const StyledView = styled.View`
+  background: #e9eaee;
+  padding: 24px;
+  border: 0.5px solid #00000021;
+  margin-bottom: 12px;
+`;
+
+const handleClick = async (id, navigate)  => {
+  await post(`tests/${id}/sessions`);
+  navigate('StartingScreen');
+}
+
+const TestCard = ({ name, description, id, navigation: { navigate }, ...props }) => (
+  <TouchableHighlight onPress={() => handleClick(id, navigate)}>
+    <StyledView>
+      <StyledText style={{ fontSize: 18, fontWeight: 'bold' }}>{name}</StyledText>
+      <StyledText>{description}</StyledText>
+    </StyledView>
   </TouchableHighlight>
 );
 

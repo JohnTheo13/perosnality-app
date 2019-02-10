@@ -41,11 +41,12 @@ class Home extends Component<{}> {
   }
 
   render() {
-    const { tests } = this.state;
+    const { tests } = this.state,
+      { navigation } = this.props;
     return (
       <View style={styles.container}>
         {tests
-          && tests.map(test => <TestCard key={test.id} {...test} />)
+          && tests.map(test => <TestCard key={test.id} {...test} navigation={navigation} />)
         }
       </View>
     )
