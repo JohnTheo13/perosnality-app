@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { TouchableHighlight, StyleSheet, Text, View } from 'react-native';
-import styled from 'styled-components/native'
+import styled from 'styled-components/native';
 import { post } from '../../api';
 
 const StyledText = styled.Text`
@@ -17,8 +17,8 @@ const StyledView = styled.View`
 `;
 
 const handleClick = async (id, deviceId, navigate) => {
-  const test = await post(`tests/${id}/sessions/${deviceId}`);
-  navigate('StartingScreen', { test });
+  const testSession = await post(`tests/${id}/sessions/${deviceId}`);
+  navigate('StartingScreen', { testSession });
 };
 
 const TestCard = ({

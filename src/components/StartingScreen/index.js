@@ -2,26 +2,30 @@
 
 import React, { Component } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import styled from 'styled-components/native';
 import { get } from '../../api';
 import TestCard from '../TestCard';
 
+const StyledHeader = styled.Text`
+  font-size: 24;
+  color: #0000008a;
+  margin-bottom: 24;
+  font-weight: bold;
+`;
+
+const StyledText = styled.Text`
+  font-size: 14;
+  color: #0000008a;
+`;
+
 const StartingScreen = ({ navigation }) => {
-  const { test } = navigation.state.params;
-  if (test.state === 'not-started') {
-    return (
-      <View>
-        <Button
-          onPress={() => alert('button 1')}
-          title="Start Test"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-      </View>
-    );
-  }
+  const { testSession } = navigation.state.params;
+  console.log(navigation)
   return (
     <View>
-      {test.state === 'finished' && (
+      <StyledHeader>{testSession.test.name}</StyledHeader>
+      <StyledText>{testSession.test.description}</StyledText>
+      {testSession.state !== 'started' && (
         <Button
           onPress={() => alert('button 1')}
           title="Start New Test"
@@ -29,12 +33,14 @@ const StartingScreen = ({ navigation }) => {
           accessibilityLabel="Learn more about this purple button"
         />
       )}
-      <Button
-        onPress={() => alert('button 2')}
-        title={test.state === 'finished' ? 'See results' : 'Resume Test'}
-        color="#841585"
-        accessibilityLabel="Learn more about this one button"
-      />
+      {testSession.state !== 'not-started' && (
+        <Button
+          onPress={() => alert('button 2')}
+          title={testSession.state === 'finished' ? 'See results' : 'Resume Test'}
+          color="#841585"
+          accessibilityLabel="Learn more about this one button"
+        />
+      )}
     </View>
   );
 };
