@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
+import DeviceInfo from 'react-native-device-info';
 import { get } from '../../api';
 import TestCard from '../TestCard';
 
@@ -26,30 +27,31 @@ const styles = StyleSheet.create({
 
 
 class Home extends Component<{}> {
-  constructor(props) {
-    super(props);
-    this.state = { tests: undefined }
-  }
-
   static navigationOptions = {
     title: 'All your Testsa'
   }
 
+  constructor(props) {
+    super(props);
+    this.state = { tests: undefined, deviceId: '' };
+  }
+
   async componentDidMount() {
-    const tests = await get('tests')
-    this.setState({ tests });
+    const tests = await get('tests');
+    const deviceId = DeviceInfo.getInstanceID();
+    this.setState({ tests, deviceId });
   }
 
   render() {
-    const { tests } = this.state,
-      { navigation } = this.props;
+    const { tests, deviceId } = this.state;
+    const { navigation } = this.props;
     return (
       <View style={styles.container}>
         {tests
-          && tests.map(test => <TestCard key={test.id} {...test} navigation={navigation} />)
+          && tests.map(test => <TestCard key={test.id} {...test} navigation={navigation} deviceId={deviceId} />)
         }
       </View>
-    )
+    );
   }
 }
 

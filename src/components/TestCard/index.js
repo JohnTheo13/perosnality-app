@@ -16,13 +16,15 @@ const StyledView = styled.View`
   margin-bottom: 12px;
 `;
 
-const handleClick = async (id, navigate)  => {
-  await post(`tests/${id}/sessions`);
-  navigate('StartingScreen');
-}
+const handleClick = async (id, deviceId, navigate) => {
+  const test = await post(`tests/${id}/sessions/${deviceId}`);
+  navigate('StartingScreen', { test });
+};
 
-const TestCard = ({ name, description, id, navigation: { navigate }, ...props }) => (
-  <TouchableHighlight onPress={() => handleClick(id, navigate)}>
+const TestCard = ({
+  name, description, id, navigation: { navigate }, deviceId
+}) => (
+  <TouchableHighlight onPress={() => handleClick(id, deviceId, navigate)}>
     <StyledView>
       <StyledText style={{ fontSize: 18, fontWeight: 'bold' }}>{name}</StyledText>
       <StyledText>{description}</StyledText>
