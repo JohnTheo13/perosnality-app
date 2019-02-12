@@ -7,14 +7,13 @@
  * @lint-ignore-every XPLATJSCOPYRIGHT1
  */
 
-import React, {Component} from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import Home from './src/components/Home';
-import StartingScreen from './src/components/StartingScreen'
+import { Home, StartingScreen, ShortTest } from './src/components';
 
 const App = createStackNavigator({
   Home,
-  StartingScreen
+  StartingScreen,
+  ShortTestScreen: ShortTest
 }, {
   defaultNavigationOptions: {
     headerTintColor: '#ffffff',
