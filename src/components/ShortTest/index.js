@@ -4,7 +4,8 @@ import {
   Text
 } from 'react-native';
 import OrderableList from '../OrderableList';
-import { get } from '../../api';
+import { get, post } from '../../api';
+import SwitchList from '../SwitchList';
 
 
 const datas = [
@@ -62,27 +63,42 @@ class ShortTest extends Component {
     this.state = { testData: {}, loading: true };
   }
 
-  async componentDidMount() {
-    const {
-      navigation: { state: { params: { testSession: { state, test: { steps } } } } }
-    } = this.props;
-    if (state === 'not-started') {
-      const testData = await get(`step/${steps[0]}/roles`);
-      // console.log(testData);
-      this.setState({ testData, loading: false });
+  // async componentDidMount() {
+  //   const {
+  //     navigation: { state: { params: { testSession: { state, test: { steps } } } } }
+  //   } = this.props;
+  //   if (state === 'not-started') {
+  //     const testData = await get(`step/${steps[0].id}/roles`);
+  //     console.log(testData);
+  //     this.setState({ testData, loading: false });
+  //   }
+  // }
+
+  onNext = async (data) => {
+    const { navigation: { state: { params: { testSession: { id, test: { steps } } } } } } = this.props;
+    console.log(steps[0]);
+    if (data.mostRepresentativeTypes) {
+      const test = await post(`answer/${id}`, {
+        body: JSON.stringify({ stepId: steps[0], data }),
+        headers: {
+          'content-type': 'application/json'
+        }
+      });
+      console.log(test);
+      this.setState({ testData: test });
     }
   }
 
   render() {
-    const { loading, testData: { step, roles } } = this.state
-    console.log(roles)
-    if (loading) {
-      return <Text>loading</Text>
-    }
-    return step && step.type === 'checklist'
-      ? <OrderableList data={datas} />
+    const { loading, testData: { step, roles } } = this.state;
+    const {
+      navigation: { state: { params: { testSession: { state, test: { steps } } } } }
+    } = this.props;
 
-      : <Text>order</Text>;
+    return state === 'not-started'
+      ? <SwitchList onNext={this.onNext} />
+
+      : <OrderableList data={datas} />;
   }
 }
 
