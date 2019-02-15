@@ -7,50 +7,6 @@ import OrderableList from '../OrderableList';
 import { get, post } from '../../api';
 import SwitchList from '../SwitchList';
 
-
-const datas = [
-  {
-    image: 'https://placekitten.com/200/240',
-    text: 'Chloe',
-  },
-  {
-    image: 'https://placekitten.com/200/201',
-    text: 'Jasper',
-  },
-  {
-    image: 'https://placekitten.com/200/202',
-    text: 'Pepper',
-  },
-  {
-    image: 'https://placekitten.com/200/203',
-    text: 'Oscar',
-  },
-  {
-    image: 'https://placekitten.com/200/204',
-    text: 'Dusty',
-  },
-  {
-    image: 'https://placekitten.com/200/205',
-    text: 'Spooky',
-  },
-  {
-    image: 'https://placekitten.com/200/210',
-    text: 'Kiki',
-  },
-  {
-    image: 'https://placekitten.com/200/215',
-    text: 'Smokey',
-  },
-  {
-    image: 'https://placekitten.com/200/220',
-    text: 'Gizmo',
-  },
-  {
-    image: 'https://placekitten.com/220/239',
-    text: 'Kitty',
-  },
-];
-
 class ShortTest extends Component {
   static navigationOptions = ({
     navigation: { state: { params: { testSession: { test: { name } } } } }
@@ -60,45 +16,49 @@ class ShortTest extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { testData: {}, loading: true };
+    const { navigation: { state: { params: { testSession } } } } = this.props;
+    this.state = { testSession, loading: true, roles: [] };
   }
 
-  // async componentDidMount() {
-  //   const {
-  //     navigation: { state: { params: { testSession: { state, test: { steps } } } } }
-  //   } = this.props;
-  //   if (state === 'not-started') {
-  //     const testData = await get(`step/${steps[0].id}/roles`);
-  //     console.log(testData);
-  //     this.setState({ testData, loading: false });
-  //   }
-  // }
+  async componentDidMount() {
+    const {
+      navigation: { state: { params: { testSession: { userId, state, test: { id, steps } } } } }
+    } = this.props;
+    if (state !== 'not-started') {
+      const testSession = await get(`tests/${id}/sessions/${userId}`);
+      console.log(testSession);
+      this.setState({ testSession, loading: false });
+    }
+  }
 
   onNext = async (data) => {
-    const { navigation: { state: { params: { testSession: { id, test: { steps } } } } } } = this.props;
-    console.log(steps[0]);
+    const { testSession: { id, test: { steps } } } = this.state;
+
     if (data.mostRepresentativeTypes) {
-      const test = await post(`answer/${id}`, {
-        body: JSON.stringify({ stepId: steps[0], data }),
+      const mostRepresentativeTypes = data.mostRepresentativeTypes.map(role => role.roleId);
+      const testSession = await post(`answer/${id}`, {
+        body: JSON.stringify({ stepId: steps[0].id, data: { mostRepresentativeTypes } }),
         headers: {
           'content-type': 'application/json'
         }
       });
-      console.log(test);
-      this.setState({ testData: test });
+      this.setState({ testSession, roles: data.mostRepresentativeTypes });
     }
   }
 
   render() {
-    const { loading, testData: { step, roles } } = this.state;
-    const {
-      navigation: { state: { params: { testSession: { state, test: { steps } } } } }
-    } = this.props;
+    const { roles, testSession: { state, answers } } = this.state;
 
-    return state === 'not-started'
-      ? <SwitchList onNext={this.onNext} />
-
-      : <OrderableList data={datas} />;
+    switch (state) {
+      case 'not-started':
+        return <SwitchList onNext={this.onNext} />;
+      case 'started':
+        return <OrderableList data={roles}/>;
+      case 'finished':
+        return <Text>finished</Text>;
+      default:
+        return <Text>loading</Text>;
+    }
   }
 }
 

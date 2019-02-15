@@ -26,15 +26,16 @@ class SwitchList extends Component {
 
   getValue = (roleId) => {
     const { mostRepresentativeTypes } = this.state;
-    return mostRepresentativeTypes.findIndex(it => roleId === it) > -1;
+    return mostRepresentativeTypes.findIndex(role => role.roleId === roleId) > -1;
   }
 
   toogle = (roleId) => {
-    const { mostRepresentativeTypes } = this.state,
+    const { mostRepresentativeTypes, rolesList } = this.state,
       updated = Array.from(mostRepresentativeTypes),
-      isIn = updated.findIndex(i => i === roleId);
+      role = rolesList.find(r => r.roleId === roleId),
+      isIn = updated.findIndex(r => r.roleId === roleId);
     if (isIn === -1) {
-      updated.push(roleId);
+      updated.push(role);
       this.setState({ mostRepresentativeTypes: updated });
       return;
     }
