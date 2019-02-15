@@ -17,7 +17,7 @@ const StyledView = styled.View`
 `;
 
 const handleClick = async (id, deviceId, navigate) => {
-  const testSession = await post(`tests/${id}/sessions/${deviceId}`);
+  const { testSession } = await post(`tests/${id}/sessions/${deviceId}`);
   console.log(testSession)
   navigate('StartingScreen', { testSession });
 };

@@ -17,7 +17,7 @@ class ShortTest extends Component {
   constructor(props) {
     super(props);
     const { navigation: { state: { params: { testSession } } } } = this.props;
-    this.state = { testSession, loading: true, roles: [] };
+    this.state = { testData: { testSession }, loading: true };
   }
 
   async componentDidMount() {
@@ -25,14 +25,18 @@ class ShortTest extends Component {
       navigation: { state: { params: { testSession: { userId, state, test: { id, steps } } } } }
     } = this.props;
     if (state !== 'not-started') {
-      const testSession = await get(`tests/${id}/sessions/${userId}`);
-      console.log(testSession);
-      this.setState({ testSession, loading: false });
+      const testData = await get(`tests/${id}/short/${userId}`);
+      console.log(testData);
+      this.setState({ testData, loading: false });
+      return;
     }
+    this.setState({ loading: false });
   }
 
   onNext = async (data) => {
-    const { testSession: { id, test: { steps } } } = this.state;
+    const {
+      testData: { testSession: { id, test: { steps } } }
+    } = this.state;
 
     if (data.mostRepresentativeTypes) {
       const mostRepresentativeTypes = data.mostRepresentativeTypes.map(role => role.roleId);
@@ -42,18 +46,19 @@ class ShortTest extends Component {
           'content-type': 'application/json'
         }
       });
-      this.setState({ testSession, roles: data.mostRepresentativeTypes });
+      const roles = data.mostRepresentativeTypes;
+      this.setState({ testData: { testSession, roles } });
     }
   }
 
   render() {
-    const { roles, testSession: { state, answers } } = this.state;
-
+    const { loading, testData: { roles, testSession: { state, answers } } } = this.state;
+console.log(roles)
     switch (state) {
       case 'not-started':
         return <SwitchList onNext={this.onNext} />;
       case 'started':
-        return <OrderableList data={roles}/>;
+        return roles ? <OrderableList data={roles} /> : <Text>loading</Text>;
       case 'finished':
         return <Text>finished</Text>;
       default:
