@@ -42,12 +42,26 @@ class ShortTest extends Component {
       const mostRepresentativeTypes = data.mostRepresentativeTypes.map(role => role.roleId);
       const testSession = await post(`answer/${id}`, {
         body: JSON.stringify({ stepId: steps[0].id, data: { mostRepresentativeTypes } }),
+        headers: { 'content-type': 'application/json' }
+      });
+      const roles = data.mostRepresentativeTypes;
+      this.setState({ testData: { testSession, roles } });
+    }
+  }
+
+  onFinish = async (data) => {
+    const {
+      testData: { testSession: { id, test: { steps } } }
+    } = this.state;
+
+    if (data.mostRepresentativeOrdered) {
+      const testSession = await post(`answer/${id}`, {
+        body: JSON.stringify({ stepId: steps[1].id, data }),
         headers: {
           'content-type': 'application/json'
         }
       });
-      const roles = data.mostRepresentativeTypes;
-      this.setState({ testData: { testSession, roles } });
+      this.setState({ testData: { testSession } });
     }
   }
 
@@ -58,7 +72,7 @@ console.log(roles)
       case 'not-started':
         return <SwitchList onNext={this.onNext} />;
       case 'started':
-        return roles ? <OrderableList data={roles} /> : <Text>loading</Text>;
+        return roles ? <OrderableList data={roles} onFinish={this.onFinish} /> : <Text>loading</Text>;
       case 'finished':
         return <Text>finished</Text>;
       default:

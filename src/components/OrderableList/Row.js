@@ -10,6 +10,7 @@ import {
   Dimensions,
   Platform,
 } from 'react-native';
+import { rolePNG } from './helper';
 
 const window = Dimensions.get('window')
 
@@ -105,12 +106,13 @@ class Row extends Component {
   }
 
   render() {
-    const { data: { image, text }, active } = this.props;
+    const { data: { icon, name, translationKey }, active } = this.props;
+    const image = rolePNG(translationKey);
 
     return (
       <Animated.View style={[styles.row, this._style]}>
-        {image && <Image source={{ uri: image }} style={styles.image} />}
-        <Text style={styles.text}>{text}</Text>
+        {icon && <Image source={image} style={styles.image} />}
+        <Text style={styles.text}>{name}</Text>
       </Animated.View>
     );
   }
