@@ -8,7 +8,7 @@ import {
   View
 } from 'react-native';
 import SortableList from 'react-native-sortable-list';
-import Row from '../../Row';
+import Row from '../Row';
 
 const window = Dimensions.get('window');
 
@@ -55,26 +55,26 @@ const styles = StyleSheet.create({
 class OrderableList extends Component {
   constructor(props) {
     super(props);
-    const { data } = this.props;
-    const mostRepresentativeOrdered = data.map(role => role.roleId);
-    this.state = { mostRepresentativeOrdered };
+    // const { data } = this.props;
+    // const mostRepresentativeOrdered = data.map(role => role.roleId);
+    // this.state = { mostRepresentativeOrdered };
   }
 
   check = (nextOr) => {
-    this.setState({ mostRepresentativeOrdered: nextOr });
+    // this.setState({ mostRepresentativeOrdered: nextOr });
   }
 
   renderRow = ({ data, active }) => <Row data={data} active={active} />;
 
   onPress = () => {
-    const { mostRepresentativeOrdered } = this.state,
-      { onFinish } = this.props,
-      data = { mostRepresentativeOrdered };
-    onFinish(data);
+    // const { mostRepresentativeOrdered } = this.state,
+    //   { onFinish } = this.props,
+    //   data = { mostRepresentativeOrdered };
+    // onFinish(data);
   }
 
   render() {
-    const { data } = this.props;
+    const { step: { words } } = this.props;
 
     return (
       <View style={styles.container}>
@@ -82,7 +82,7 @@ class OrderableList extends Component {
           onChangeOrder={this.check}
           style={styles.list}
           contentContainerStyle={styles.contentContainer}
-          data={data}
+          data={words}
           renderRow={this.renderRow}
         />
         <Button
