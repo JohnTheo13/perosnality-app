@@ -74,7 +74,7 @@ class ShortTest extends Component {
       case 'started':
         return roles ? <OrderableList data={roles} onFinish={this.onFinish} /> : <Text>loading</Text>;
       case 'finished':
-        return <ShortResults sessioId={id} />;
+        return <ShortResults sessionId={id} />;
       default:
         return <Text>loading</Text>;
     }
