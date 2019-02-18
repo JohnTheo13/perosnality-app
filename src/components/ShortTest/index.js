@@ -3,9 +3,10 @@ import {
   StyleSheet,
   Text
 } from 'react-native';
-import OrderableList from '../OrderableList';
+import OrderableList from './OrderableList';
 import { get, post } from '../../api';
-import SwitchList from '../SwitchList';
+import SwitchList from './SwitchList';
+import ShortResults from './ShortResults';
 
 class ShortTest extends Component {
   static navigationOptions = ({
@@ -26,7 +27,6 @@ class ShortTest extends Component {
     } = this.props;
     if (state !== 'not-started') {
       const testData = await get(`tests/${id}/short/${userId}`);
-      console.log(testData);
       this.setState({ testData, loading: false });
       return;
     }
@@ -66,15 +66,15 @@ class ShortTest extends Component {
   }
 
   render() {
-    const { loading, testData: { roles, testSession: { state, answers } } } = this.state;
-console.log(roles)
+    const { loading, testData: { roles, testSession: { state, id } } } = this.state;
+
     switch (state) {
       case 'not-started':
         return <SwitchList onNext={this.onNext} />;
       case 'started':
         return roles ? <OrderableList data={roles} onFinish={this.onFinish} /> : <Text>loading</Text>;
       case 'finished':
-        return <Text>finished</Text>;
+        return <ShortResults sessioId={id} />;
       default:
         return <Text>loading</Text>;
     }

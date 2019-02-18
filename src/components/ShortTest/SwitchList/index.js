@@ -6,7 +6,7 @@ import {
   Text,
   Button
 } from 'react-native';
-import { get } from '../../api';
+import { get } from '../../../api';
 import SwitchItem from './SwitchItem';
 
 class SwitchList extends Component {
