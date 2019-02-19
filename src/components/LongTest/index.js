@@ -33,9 +33,9 @@ class LongTest extends Component {
 
   onNext = async (data) => {
     const {
-      testData: { testSession: { id, lastStep, test: { steps } } }
+      testData: { testSession: { id, step, test: { steps } } }
     } = this.state;
-    const stepId = lastStep ? lastStep.id : steps[0].id;
+    const stepId = step ? steps[step.sequenceNumber].id : steps[0].id;
     if (data.mostRepresentativeOrdered) {
       const testSession = await post(`answer/${id}`, {
         body: JSON.stringify({ stepId, data }),
@@ -49,12 +49,12 @@ class LongTest extends Component {
     const {
       loading, testData: {
         testSession: {
-          state, id, lastStep, test: { steps, steps: { length } }
+          state, id, step, test: { steps, steps: { length } }
         }
       }
     } = this.state;
-    const activeStep = lastStep ? steps[lastStep.sequenceNumber - 1] : steps[0]; // step[0].id || lastStepId
-    const isLast = lastStep && lastStep.sequenceNumber === length;
+    const activeStep = step ? steps[step.sequenceNumber] : steps[0]; // step[0].id || stepId
+    const isLast = step && step.sequenceNumber === length;
 console.log(this.state.testData)
     if (state !== 'finished') {
       return (
