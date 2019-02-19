@@ -56,20 +56,22 @@ class OrderableList extends Component {
   constructor(props) {
     super(props);
     const { data } = this.props;
-    const mostRepresentativeOrdered = data.map(role => role.roleId);
-    this.state = { mostRepresentativeOrdered };
+    const roleIds = data.map(role => role.roleId);
+    this.state = { roleIds, roleIndexes: [] };
   }
 
-  check = (nextOr) => {
-    this.setState({ mostRepresentativeOrdered: nextOr });
+  check = (roleIndexes) => {console.log(roleIndexes)
+    this.setState({ roleIndexes });
   }
 
   renderRow = ({ data, active }) => <Row data={data} active={active} />;
 
   onPress = () => {
-    const { mostRepresentativeOrdered } = this.state,
+    const { roleIds, roleIndexes } = this.state,
       { onFinish } = this.props,
-      data = { mostRepresentativeOrdered };
+      mostRepresentativeOrdered = [];
+    roleIndexes.forEach(index => mostRepresentativeOrdered.push(roleIds[index]));
+    const data = { mostRepresentativeOrdered };
     onFinish(data);
   }
 

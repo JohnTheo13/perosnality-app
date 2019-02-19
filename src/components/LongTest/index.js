@@ -3,7 +3,7 @@ import {
   StyleSheet,
   Text
 } from 'react-native';
-import { get } from '../../api';
+import { get, post } from '../../api';
 import Orderable from './Orderable';
 
 class LongTest extends Component {
@@ -31,18 +31,40 @@ class LongTest extends Component {
     this.setState({ loading: false });
   }
 
+  onNext = async (data) => {
+    const {
+      testData: { testSession: { id, lastStep, test: { steps } } }
+    } = this.state;
+    const stepId = lastStep ? lastStep.id : steps[0].id;
+    if (data.mostRepresentativeOrdered) {
+      const testSession = await post(`answer/${id}`, {
+        body: JSON.stringify({ stepId, data }),
+        headers: { 'content-type': 'application/json' }
+      });
+      this.setState({ testData: { testSession } });
+    }
+  }
+
   render() {
     const {
       loading, testData: {
         testSession: {
-          state, id, lastStep, test: { steps }
+          state, id, lastStep, test: { steps, steps: { length } }
         }
       }
     } = this.state;
-    const activeStep = state === 'started' ? lastStep : steps[0];
+    const activeStep = lastStep ? steps[lastStep.sequenceNumber - 1] : steps[0]; // step[0].id || lastStepId
+    const isLast = lastStep && lastStep.sequenceNumber === length;
 console.log(this.state.testData)
     if (state !== 'finished') {
-      return <Orderable step={activeStep} /> // step[0].id || lastStepId
+      return (
+        <Orderable
+          step={activeStep}
+          isLast={isLast}
+          length={length}
+          onNext={this.onNext}
+        />
+      );
     }
     return <Text>finished</Text> // sesionId
   }

@@ -55,26 +55,28 @@ const styles = StyleSheet.create({
 class OrderableList extends Component {
   constructor(props) {
     super(props);
-    // const { data } = this.props;
-    // const mostRepresentativeOrdered = data.map(role => role.roleId);
-    // this.state = { mostRepresentativeOrdered };
+    const { step: { words } } = this.props;
+    const wordIds = words.map(word => word.roleId);
+    this.state = { wordIds, wordIndexes: [] };
   }
 
-  check = (nextOr) => {
-    // this.setState({ mostRepresentativeOrdered: nextOr });
+  check = (wordIndexes) => {console.log(wordIndexes)
+    this.setState({ wordIndexes });
   }
 
   renderRow = ({ data, active }) => <Row data={data} active={active} />;
 
   onPress = () => {
-    // const { mostRepresentativeOrdered } = this.state,
-    //   { onFinish } = this.props,
-    //   data = { mostRepresentativeOrdered };
-    // onFinish(data);
+    const { wordIds, wordIndexes } = this.state,
+      { onNext } = this.props,
+      mostRepresentativeOrdered = [];
+    wordIndexes.forEach(index => mostRepresentativeOrdered.push(wordIds[index]));
+    const data = { mostRepresentativeOrdered };
+    onNext(data);
   }
 
   render() {
-    const { step: { words } } = this.props;
+    const { step: { words }, isLast } = this.props;
 
     return (
       <View style={styles.container}>
@@ -87,7 +89,7 @@ class OrderableList extends Component {
         />
         <Button
           onPress={this.onPress}
-          title="Finish"
+          title={isLast ? 'Finish' : 'Next'}
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
         />
