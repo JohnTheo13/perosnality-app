@@ -57,7 +57,7 @@ class OrderableList extends Component {
     super(props);
     const { data } = this.props;
     const roleIds = data.map(role => role.roleId);
-    this.state = { roleIds, roleIndexes: [] };
+    this.state = { roleIds, roleIndexes: [0, 1, 2, 3] };
   }
 
   check = (roleIndexes) => {console.log(roleIndexes)

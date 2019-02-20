@@ -56,8 +56,16 @@ class OrderableList extends Component {
   constructor(props) {
     super(props);
     const { step: { words } } = this.props;
-    const wordIds = words.map(word => word.roleId);
-    this.state = { wordIds, wordIndexes: [] };
+    const wordIds = words.map(word => word.wordId);
+    this.state = { wordIds, wordIndexes: [0, 1, 2, 3] };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { step: { words, id } } = nextProps;
+    if (id !== this.props.step.id) { // eslint-disable-line
+      const wordIds = words.map(word => word.wordId);
+      this.setState({ wordIds });
+    }
   }
 
   check = (wordIndexes) => {console.log(wordIndexes)
