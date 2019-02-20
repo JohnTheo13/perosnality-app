@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { rolePNG } from './helper';
 
-const window = Dimensions.get('window')
+const window = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   row: {
@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
 });
 
 class Row extends Component {
-
   constructor(props) {
     super(props);
 

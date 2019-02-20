@@ -8,12 +8,15 @@
  */
 
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-import { Home, StartingScreen, ShortTest } from './src/components';
+import {
+  Home, StartingScreen, ShortTest, LongTest
+} from './src/components';
 
 const App = createStackNavigator({
   Home,
   StartingScreen,
-  ShortTestScreen: ShortTest
+  ShortTestScreen: ShortTest,
+  LongTestScreen: LongTest
 }, {
   defaultNavigationOptions: {
     headerTintColor: '#ffffff',
