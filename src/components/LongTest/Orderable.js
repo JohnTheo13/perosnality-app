@@ -4,18 +4,18 @@ import {
   StyleSheet,
   Dimensions,
   Platform,
-  Button,
   View
 } from 'react-native';
 import SortableList from 'react-native-sortable-list';
 import Row from '../Row';
+import CustomButton from '../Button';
 
 const window = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#eee',
 
@@ -24,12 +24,6 @@ const styles = StyleSheet.create({
         paddingTop: 20,
       },
     }),
-  },
-
-  title: {
-    fontSize: 20,
-    paddingVertical: 20,
-    color: '#999999',
   },
 
   list: {
@@ -95,11 +89,11 @@ class OrderableList extends Component {
           data={words}
           renderRow={this.renderRow}
         />
-        <Button
+        <CustomButton
           onPress={this.onPress}
           title={isLast ? 'Finish' : 'Next'}
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"
+          style={{ width: 350, top: -100 }}
         />
       </View>
     );

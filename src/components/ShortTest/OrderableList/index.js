@@ -4,10 +4,10 @@ import {
   StyleSheet,
   Dimensions,
   Platform,
-  Button,
   View
 } from 'react-native';
 import SortableList from 'react-native-sortable-list';
+import CustomButton from '../../Button';
 import Row from '../../Row';
 
 const window = Dimensions.get('window');
@@ -87,11 +87,11 @@ class OrderableList extends Component {
           data={data}
           renderRow={this.renderRow}
         />
-        <Button
+        <CustomButton
           onPress={this.onPress}
           title="Finish"
           color="#841584"
-          accessibilityLabel="Learn more about this purple button"
+          style={{ width: 350, top: -100 }}
         />
       </View>
     );

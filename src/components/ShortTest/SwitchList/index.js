@@ -1,11 +1,10 @@
 /* eslint-disable one-var */
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   View,
-  Text,
-  Button
+  Text
 } from 'react-native';
+import CustomButton from '../../Button';
 import { get } from '../../../api';
 import SwitchItem from './SwitchItem';
 
@@ -68,12 +67,11 @@ class SwitchList extends Component {
             disabled={length === 4 && !this.getValue(item.roleId)}
           />
         ))}
-        <Button
+        <CustomButton
           onPress={this.onPress}
           title="Next"
           color="#841584"
           disabled={length < 4}
-          accessibilityLabel="Learn more about this purple button"
         />
       </View>
     );

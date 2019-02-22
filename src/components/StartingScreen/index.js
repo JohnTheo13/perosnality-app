@@ -1,21 +1,10 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Button, Image, View } from 'react-native';
-import styled from 'styled-components/native';
+import { View, Image } from 'react-native';
+import CustomButton from '../Button';
 import { post } from '../../api';
-
-const StyledHeader = styled.Text`
-  font-size: 24;
-  color: #0000008a;
-  margin-bottom: 24;
-  font-weight: bold;
-`;
-
-const StyledText = styled.Text`
-  font-size: 14;
-  color: #0000008a;
-`;
+import { Description } from './styled';
 
 const screen = {
   short: 'ShortTestScreen',
@@ -50,32 +39,28 @@ class StartingScreen extends Component {
     const { navigation: { state: { params: { testSession } } } } = this.props;
     return (
       <View>
-        <StyledHeader>{testSession.test.name}</StyledHeader>
-        <StyledText>{testSession.test.description}</StyledText>
+        <Description>{testSession.test.description}</Description>
+        <Image style={{ marginTop: 24 }} source={require('../../rolesImgs/all-roles.png')} />
         {testSession.state === 'finished' ? (
-          <Button
+          <CustomButton
             onPress={this.restartTest}
             title="Start Test again"
             color="#841584"
-            accessibilityLabel="Learn more about this purple button"
           />
         ) : (
-          <Button
+          <CustomButton
             onPress={this.testNavigation}
             title="Start Test"
             color="#841584"
-            accessibilityLabel="Learn more about this purple button"
           />
         )}
         {testSession.state !== 'not-started' && (
-          <Button
+          <CustomButton
             onPress={this.testNavigation}
             title={testSession.state === 'finished' ? 'See results' : 'Resume Test'}
             color="#841585"
-            accessibilityLabel="Learn more about this one button"
           />
         )}
-        <Image source={require('../../rolesImgs/all-roles.png')} />
       </View>
     );
   }
