@@ -60,7 +60,7 @@ class OrderableList extends Component {
     this.state = { roleIds, roleIndexes: [0, 1, 2, 3] };
   }
 
-  check = (roleIndexes) => {console.log(roleIndexes)
+  check = (roleIndexes) => {
     this.setState({ roleIndexes });
   }
 

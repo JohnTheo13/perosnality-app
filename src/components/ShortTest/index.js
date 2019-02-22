@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  Text
+  Text,
+  Button,
+  BackHandler
 } from 'react-native';
+import { StackActions } from 'react-navigation';
 import OrderableList from './OrderableList';
 import { get, post } from '../../api';
 import SwitchList from './SwitchList';
@@ -17,7 +20,8 @@ class ShortTest extends Component {
 
   constructor(props) {
     super(props);
-    const { navigation: { state: { params: { testSession } } } } = this.props;
+    const { navigation: { navigate, state: { params: { testSession } } } } = this.props;
+    this.props.navigation.goBack = () => navigate('Home'); // eslint-disable-line
     this.state = { testData: { testSession }, loading: true };
   }
 
@@ -66,7 +70,7 @@ class ShortTest extends Component {
   }
 
   render() {
-    const { loading, testData: { roles, testSession: { state, id } } } = this.state;
+    const { loading, testData: { roles, testSession: { state, id, test } } } = this.state;
 
     switch (state) {
       case 'not-started':

@@ -68,7 +68,7 @@ class OrderableList extends Component {
     }
   }
 
-  check = (wordIndexes) => {console.log(wordIndexes)
+  check = (wordIndexes) => {
     this.setState({ wordIndexes });
   }
 

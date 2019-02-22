@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { Button, Image, View } from 'react-native';
 import styled from 'styled-components/native';
+import { post } from '../../api';
 
 const StyledHeader = styled.Text`
   font-size: 24;
@@ -16,6 +17,11 @@ const StyledText = styled.Text`
   color: #0000008a;
 `;
 
+const screen = {
+  short: 'ShortTestScreen',
+  long: 'LongTestScreen'
+};
+
 class StartingScreen extends Component {
   static navigationOptions = ({
     navigation: { state: { params: { testSession: { test: { name } } } } }
@@ -28,17 +34,16 @@ class StartingScreen extends Component {
       navigation: { navigate, state: { params: { testSession: { test: { type } }, testSession } } }
     } = this.props;
     // console.log(testSession)
-    switch (type) {
-      case 'short':
-        navigate('ShortTestScreen', { testSession });
-        break;
-      case 'long':
-        navigate('LongTestScreen', { testSession });
-        break;
-      default:
-        alert('something is wrong');
-        break;
-    }
+    navigate(screen[type], { testSession });
+  }
+
+  restartTest = async () => {
+    const {
+      navigation: { navigate, state: { params: { testSession: { id, test: { type } } } } }
+    } = this.props;
+    const { testSession } = await post(`tests/sessions/${id}`); 
+    console.log(testSession)
+    navigate(screen[type], { testSession });
   }
 
   render() {
@@ -47,10 +52,17 @@ class StartingScreen extends Component {
       <View>
         <StyledHeader>{testSession.test.name}</StyledHeader>
         <StyledText>{testSession.test.description}</StyledText>
-        {testSession.state !== 'started' && (
+        {testSession.state === 'finished' ? (
+          <Button
+            onPress={this.restartTest}
+            title="Start Test again"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />
+        ) : (
           <Button
             onPress={this.testNavigation}
-            title="Start New Test"
+            title="Start Test"
             color="#841584"
             accessibilityLabel="Learn more about this purple button"
           />
