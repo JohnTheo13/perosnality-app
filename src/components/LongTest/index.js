@@ -3,8 +3,9 @@ import {
   StyleSheet,
   Text
 } from 'react-native';
-import { get, post } from '../../api';
+import { post } from '../../api';
 import Orderable from './Orderable';
+import ShowResults from './ShowResults';
 
 class LongTest extends Component {
   static navigationOptions = ({
@@ -15,21 +16,10 @@ class LongTest extends Component {
 
   constructor(props) {
     super(props);
-    const { navigation: { state: { params: { testSession } } } } = this.props;
+    const { navigation: { navigate, state: { params: { testSession } } } } = this.props;
+    this.props.navigation.goBack = () => navigate('Home'); // eslint-disable-line
     this.state = { testData: { testSession }, loading: true };
   }
-
-  // async componentDidMount() {
-  //   const {
-  //     navigation: { state: { params: { testSession: { userId, state, test: { id, steps } } } } }
-  //   } = this.props;
-  //   if (state !== 'not-started') {
-  //     const testSession = await get(`tests/sessions/${userId}`);
-  //     this.setState({ testData: { testSession }, loading: false });
-  //     return;
-  //   }
-  //   this.setState({ loading: false });
-  // }
 
   onNext = async (data) => {
     const {
@@ -65,7 +55,7 @@ class LongTest extends Component {
         />
       );
     }
-    return <Text>finished</Text> // sesionId
+    return <ShowResults sessionId={id} />;
   }
 }
 
