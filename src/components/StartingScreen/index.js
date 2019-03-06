@@ -41,19 +41,11 @@ class StartingScreen extends Component {
       <View>
         <Description>{testSession.test.description}</Description>
         <Image style={{ marginTop: 24 }} source={require('../../rolesImgs/all-roles.png')} />
-        {testSession.state === 'finished' ? (
-          <CustomButton
-            onPress={this.restartTest}
-            title="Start Test again"
-            color="#841584"
-          />
-        ) : (
-          <CustomButton
-            onPress={this.testNavigation}
-            title="Start Test"
-            color="#841584"
-          />
-        )}
+        <CustomButton
+          onPress={this.restartTest}
+          title={testSession.state === 'finished' ? "Start Test again": "Start Test"}
+          color="#841584"
+        />
         {testSession.state !== 'not-started' && (
           <CustomButton
             onPress={this.testNavigation}
