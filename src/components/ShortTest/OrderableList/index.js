@@ -9,47 +9,9 @@ import {
 import SortableList from 'react-native-sortable-list';
 import CustomButton from '../../Button';
 import Row from '../../Row';
+import { styles } from '../../../components/LongTest/Orderable';
 
 const window = Dimensions.get('window');
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#eee',
-
-    ...Platform.select({
-      ios: {
-        paddingTop: 20,
-      },
-    }),
-  },
-
-  title: {
-    fontSize: 20,
-    paddingVertical: 20,
-    color: '#999999',
-  },
-
-  list: {
-    flex: 1,
-  },
-
-  contentContainer: {
-    width: window.width,
-
-    ...Platform.select({
-      ios: {
-        paddingHorizontal: 30,
-      },
-
-      android: {
-        paddingHorizontal: 0,
-      }
-    })
-  }
-});
 
 
 class OrderableList extends Component {
@@ -91,7 +53,7 @@ class OrderableList extends Component {
           onPress={this.onPress}
           title="Finish"
           color="#841584"
-          style={{ width: 350, top: -100 }}
+          style={styles.button}
         />
       </View>
     );

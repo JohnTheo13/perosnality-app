@@ -7,6 +7,7 @@ import {
 import CustomButton from '../../Button';
 import { get } from '../../../api';
 import SwitchItem from './SwitchItem';
+import { styles } from '../../../components/LongTest/Orderable';
 
 class SwitchList extends Component {
   constructor(props) {
@@ -72,6 +73,7 @@ class SwitchList extends Component {
           title="Next"
           color="#841584"
           disabled={length < 4}
+          style={{ bottom: -10 }}
         />
       </View>
     );
