@@ -1,7 +1,6 @@
 // @flow
-import Config from 'react-native-config';
 
-const apiHost = Config.API_URL;
+const apiHost = 'https://personaltest13.herokuapp.com/test-provider/v1/';
 
 const request = async (url, options = {}) => {
   let response;
