@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { Text, ScrollView } from 'react-native';
 import { get } from '../../../api';
 import WordCloud from '../../WordCloud';
 
@@ -43,7 +43,7 @@ class ShortResults extends Component {
   render() {
     const { results } = this.state;
     return (
-      <View>
+      <ScrollView>
         {results.length > 0
           && (
           <WordCloud
@@ -56,7 +56,7 @@ class ShortResults extends Component {
             minFontSize={24}
           />
           )}
-      </View>
+      </ScrollView>
     );
   }
 }

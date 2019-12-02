@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
+import { ScrollView, Image } from 'react-native';
 import CustomButton from '../Button';
 import { post } from '../../api';
 import { Description } from './styled';
@@ -38,7 +38,7 @@ class StartingScreen extends Component {
   render() {
     const { navigation: { state: { params: { testSession } } } } = this.props;
     return (
-      <View>
+      <ScrollView>
         <Description>{testSession.test.description}</Description>
         <Image style={{ marginTop: 24 }} source={require('../../rolesImgs/all-roles.png')} />
         <CustomButton
@@ -53,7 +53,7 @@ class StartingScreen extends Component {
             color="#841585"
           />
         )}
-      </View>
+      </ScrollView>
     );
   }
 }

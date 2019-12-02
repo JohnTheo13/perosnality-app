@@ -1,4 +1,3 @@
-/* eslint-disable one-var */
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -12,7 +11,7 @@ import CustomButton from '../Button';
 
 const window = Dimensions.get('window');
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'space-around',
@@ -42,6 +41,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 0,
       }
     })
+  },
+  button: {
+    width: '85%',
+    bottom: 0,
   }
 });
 
@@ -62,7 +65,7 @@ class OrderableList extends Component {
     }
   }
 
-  check = (wordIndexes) => {
+  check = wordIndexes => {
     this.setState({ wordIndexes });
   }
 
@@ -78,7 +81,7 @@ class OrderableList extends Component {
   }
 
   render() {
-    const { step: { words }, isLast } = this.props;
+    const { step: { words }, isLast, loading } = this.props;
 
     return (
       <View style={styles.container}>
@@ -93,7 +96,8 @@ class OrderableList extends Component {
           onPress={this.onPress}
           title={isLast ? 'Finish' : 'Next'}
           color="#841584"
-          style={{ width: 350, top: -100 }}
+          style={styles.button}
+          disabled={loading}
         />
       </View>
     );

@@ -18,10 +18,11 @@ class LongTest extends Component {
     super(props);
     const { navigation: { navigate, state: { params: { testSession } } } } = this.props;
     this.props.navigation.goBack = () => navigate('Home'); // eslint-disable-line
-    this.state = { testData: { testSession }, loading: true };
+    this.state = { testData: { testSession }, loading: false };
   }
 
   onNext = async (data) => {
+    this.setState({ loading: true });
     const {
       testData: { testSession: { id, step, test: { steps } } }
     } = this.state;
@@ -31,7 +32,7 @@ class LongTest extends Component {
         body: JSON.stringify({ stepId, data }),
         headers: { 'content-type': 'application/json' }
       });
-      this.setState({ testData: { testSession } });
+      this.setState({ testData: { testSession }, loading: false });
     }
   }
 
@@ -52,6 +53,7 @@ class LongTest extends Component {
           isLast={isLast}
           length={length}
           onNext={this.onNext}
+          loading={loading}
         />
       );
     }
