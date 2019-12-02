@@ -1,7 +1,7 @@
 /* eslint-disable one-var */
 import React, { Component } from 'react';
 import {
-  View,
+  ScrollView,
   Text
 } from 'react-native';
 import CustomButton from '../../Button';
@@ -58,7 +58,7 @@ class SwitchList extends Component {
     }
 
     return (
-      <View>
+      <ScrollView>
         {rolesList.map(item => (
           <SwitchItem
             key={item.id}
@@ -75,7 +75,7 @@ class SwitchList extends Component {
           disabled={length < 4}
           style={{ bottom: -10 }}
         />
-      </View>
+      </ScrollView>
     );
   }
 }

@@ -1,4 +1,3 @@
-/* eslint-disable one-var */
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -44,7 +43,8 @@ export const styles = StyleSheet.create({
     })
   },
   button: {
-    width: 350, bottom: 20
+    width: '85%',
+    bottom: 0,
   }
 });
 
@@ -65,7 +65,7 @@ class OrderableList extends Component {
     }
   }
 
-  check = (wordIndexes) => {
+  check = wordIndexes => {
     this.setState({ wordIndexes });
   }
 
@@ -81,7 +81,7 @@ class OrderableList extends Component {
   }
 
   render() {
-    const { step: { words }, isLast } = this.props;
+    const { step: { words }, isLast, loading } = this.props;
 
     return (
       <View style={styles.container}>
@@ -97,6 +97,7 @@ class OrderableList extends Component {
           title={isLast ? 'Finish' : 'Next'}
           color="#841584"
           style={styles.button}
+          disabled={loading}
         />
       </View>
     );

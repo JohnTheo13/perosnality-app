@@ -1,30 +1,31 @@
-/* eslint-disable */
-import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { get } from '../../api';
-import { rolePNG } from '../Row/helper';
-import { bold } from 'ansi-colors';
+import React, { Component } from "react";
+import { ScrollView, Text, Image, StyleSheet, View } from "react-native";
+import { get } from "../../api";
+import { rolePNG } from "../Row/helper";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F5FCFF"
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     margin: 12
   },
   image: {
     marginTop: 12,
     marginBottom: 12
-  },
-})
+  }
+});
 
 const ResultView = ({
-  name, translationKey, descriptionPit, descriptionStrong
+  name,
+  translationKey,
+  descriptionPit,
+  descriptionStrong
 }) => (
   <View style={styles.container}>
     <Text style={styles.header}>{name}</Text>
@@ -39,7 +40,7 @@ const ResultView = ({
 class ShowResults extends Component {
   constructor(props) {
     super(props);
-    this.state = { results:  [] };
+    this.state = { results: [] };
   }
 
   async componentDidMount() {
@@ -49,14 +50,24 @@ class ShowResults extends Component {
   }
 
   render() {
-    const { results: { length }, results } = this.state;
+    const {
+      results: { length },
+      results
+    } = this.state;
     if (length === 0) {
       return <Text>Loading</Text>;
-    } else if (length > 1) {
-      return results.map(({ role }) => <ResultView {...role} />)
-    } 
-    return <ResultView {...results[0].role} />;
+    }
+
+    return (
+      <ScrollView>
+        {length > 1 ? (
+          results.map(({ role }) => <ResultView {...role} />)
+        ) : (
+          <ResultView {...results[0].role} />
+        )}
+      </ScrollView>
+    );
   }
-};
+}
 
 export default ShowResults;
